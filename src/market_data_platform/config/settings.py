@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     binance_api_url: str = "https://api.binance.com/api/v3"
     default_symbol: str = "BTCUSDT"
     default_interval: str = "1h"
+    log_level: str = "INFO"
 
     postgres_host: str
     postgres_port: int
