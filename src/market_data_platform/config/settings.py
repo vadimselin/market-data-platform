@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     default_symbol: str = "BTCUSDT"
     default_interval: str = "1h"
     log_level: str = "INFO"
+    request_timeout: float = 10.0
 
     postgres_host: str
     postgres_port: int
