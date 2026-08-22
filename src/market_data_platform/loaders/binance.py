@@ -7,12 +7,20 @@ from market_data_platform.config.settings import settings
 logger = logging.getLogger(__name__)
 
 
-def build_klines_url(symbol: str | None = None, interval: str | None = None) -> str:
+def build_klines_url(
+        symbol: str | None = None, 
+        interval: str | None = None,
+        limit: int | None = None
+        ) -> str:
     """Собрать URL для запроса свечей."""
     symbol = symbol or settings.default_symbol
     interval = interval or settings.default_interval
+    limit = limit or settings.default_limit
+    if limit > 1000:
+        limit = 1000
+        logger.warning("превышен лимит для данных свечей для %s. лимит обрезан до 1000", symbol)
     logger.debug("собираю URL для %s", symbol)
-    url = f"{settings.binance_api_url}/klines?symbol={symbol}&interval={interval}"
+    url = f"{settings.binance_api_url}/klines?symbol={symbol}&interval={interval}&limit={limit}"
     logger.info("URL готов: %s", url)
     return url
 
