@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     default_limit: int = Field(100, gt=0)
     log_level: str = "INFO"
     request_timeout: float = 10.0
+    request_attempts: int = Field(1, gt=0)
 
     postgres_host: str
     postgres_port: int

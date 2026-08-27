@@ -12,3 +12,5 @@ def setup_logging(level: str = "INFO") -> None:
         datefmt="%Y-%m-%d %H:%M:%S",
         stream=sys.stderr,
     )
+    logging.getLogger("httpx").setLevel("WARNING")
+    logging.getLogger("httpcore").setLevel("WARNING")

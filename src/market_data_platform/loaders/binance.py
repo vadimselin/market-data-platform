@@ -1,7 +1,7 @@
 """Загрузчик данных с Binance."""
 
 import logging
-
+import httpx
 from market_data_platform.config.settings import settings
 
 logger = logging.getLogger(__name__)
@@ -24,13 +24,35 @@ def build_klines_url(
     logger.info("URL готов: %s", url)
     return url
 
+def fetch_klines(
+        url: str | None = None, 
+        timeout: float | None = None,
+        max_attempts: int | None = None
+        ) -> int:
+    """Get-запрос по заданному url с таймаутом"""
+    url = url or settings.binance_api_url
+    timeout = timeout or settings.request_timeout
+    max_attempts = max_attempts or settings.request_attempts
+
+    for attempt in range(1, max_attempts + 1):
+        try:
+            r = httpx.get(url=url, timeout=timeout)
+            return r.status_code
+        except (httpx.TimeoutException, httpx.ConnectError) as e:
+            logger.warning("Возникла сетевая ошибка %s на попытка подключения № %s", e, attempt)
+            if attempt == max_attempts:
+                raise
+
 
 def main() -> None:
     from market_data_platform.config.logging import setup_logging
 
     setup_logging(settings.log_level)
     build_klines_url()
-    build_klines_url("ETHUSDT")
+    url = build_klines_url("ETHUSDT")
+    status = fetch_klines(url)
+    # status = fetch_klines(url, timeout=0.001, max_attempts=3) #test
+    logger.info("статус ответа: %s", status)
 
 
 if __name__ == "__main__":
