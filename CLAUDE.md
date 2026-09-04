@@ -114,7 +114,8 @@ volumes.
 - 1.2 конфигурация через pydantic-settings ✅
 - 1.3 логирование ✅
 - 1.4 практика на конфиге и логах ✅
-- Дальше: HTTP-клиент с retry, валидация через pydantic, typing + mypy,
+- 1.5–1.6 HTTP-клиент с retry (сетевые ошибки + 5xx) ✅
+- Дальше: валидация через pydantic, typing + mypy,
   pytest, Parquet через pyarrow, polars, идемпотентность
 
 **Дальше:** Фаза 2 Airflow → Фаза 3 dbt → Фаза 4 производительность и MPP →
